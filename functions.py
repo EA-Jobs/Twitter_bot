@@ -43,3 +43,10 @@ def retweet(id):
     api = tweepy.API(auth)
 
     api.retweet(id)
+
+# saves a tweet id to a file
+# this will be important so we don't accidentally retweet a tweet twice
+def remember(fileName, id):
+    f = open(fileName, 'a')
+    f.write(str(id) + "\n")
+    f.close()

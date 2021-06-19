@@ -30,3 +30,14 @@ def search(text):
         results.append([tweet.id, tweet.text])
 
     return results
+
+# retweets a tweet, given it's id
+def retweet(id):
+    # authentification
+    auth = tweepy.OAuthHandler(API_KEY, API_SECRET_KEY)
+    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
+    # getting tweepy api object
+    api = tweepy.API(auth)
+
+    api.retweet(id)

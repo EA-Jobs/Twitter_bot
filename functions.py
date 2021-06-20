@@ -47,6 +47,15 @@ def retweet(id):
 # saves a tweet id to a file
 # this will be important so we don't accidentally re-retweet a tweet
 def remember(fileName, id):
-    f = open(fileName, 'a')
+    f = open(fileName, 'w')
     f.write(str(id) + "\n")
     f.close()
+
+# checks to see if tweet has been retweeted already
+# id input is an integer
+def retweeted(fileName, id):
+    f = open(fileName, 'r')
+    for remembered_id in f:
+        if int(remembered_id) == id:
+            return True
+     return False

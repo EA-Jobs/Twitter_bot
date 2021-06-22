@@ -1,6 +1,7 @@
 from functions import *
 import time
 
+# Enter hashtags to be retweeted in this list.
 hashtags = ["#EAjobs"]
 
 # constantly loops through this code

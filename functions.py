@@ -46,6 +46,8 @@ def retweet(ident):
 
     api.retweet(ident)
 
+'''
+The following is not needed, but may end up being needed if we see problems with the current way retweetHashtag works.
 # saves a tweet id to a file
 # this will be important so we don't accidentally re-retweet a tweet
 def remember(fileName, ident):
@@ -66,6 +68,7 @@ def retweeted(fileName, ident):
             return True
     f.close()
     return False    
+'''
 
 # retweets all results from a search (hashtag) which have not already been retweeted
 def retweetHashtag(hashtag):

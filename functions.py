@@ -16,6 +16,7 @@ def tweet(text):
 # returns all tweets made after or on the date entered, sorted from newest (0) to oldest (99), when return when text is searched using Twitter's search capability
 # data types: returns 2d array with tweet id in the first row (as an integer), and the tweet text in the second row (as a string)
 # date input is in yyyy-mm-dd format, and a string if it is used
+# note also that the furthest back it can search is 7 days
 def search(text, date=None):
     # authentification
     auth = tweepy.OAuthHandler(API_KEY, API_SECRET_KEY)
@@ -30,7 +31,7 @@ def search(text, date=None):
 
     # Using twitter search function to search for inputted text
     for i,tweet in enumerate(tweepy.Cursor(api.search, q=text, since=date).items(max_results)):
-        results.append([tweet.ident, tweet.text])
+        results.append([tweet.id, tweet.text])
 
     return results
 
@@ -57,6 +58,9 @@ def remember(fileName, ident):
 def retweeted(fileName, ident):
     f = open(fileName, 'r')
     for remembered_id in f:
+        print()
+        print(remembered_id, ident)
+        print()
         if int(remembered_id) == ident:
             f.close()
             return True
@@ -65,29 +69,17 @@ def retweeted(fileName, ident):
 
 # retweets all results from a search (hashtag) which have not already been retweeted
 def retweetHashtag(hashtag):
-    # finds the day two days ago
-    dt = datetime.datetime.now()
-    d = datetime.timedelta(days=2)
-    dateTwoDaysAgo = dt - d
-
-    # converts that day into a tweepy-acceptable date format
-    year = dateTwoDaysAgo.year
-    month = dateTwoDaysAgo.month
-    day = dateTwoDaysAgo.day
-    since = str(year) + "-" + str(month) + "-" + str(day-2)
-
-    # searches twitter for tweets with that hashtag made two days ago
-    tweets = search(hashtag, date=since)
-
+    # searches twitter for tweets with that hashtag made in the past 7 days
+    tweets = search(hashtag)
+    
     # loops through those tweets
     for tweet in tweets:
         ident = tweet[0]
-        # if the tweet has not been retweeted, 
-        if not retweeted("retweeted.txt", ident):
-            # then retweet the tweet
+
+        # attempts to retweet the tweet
+        # causes an error when we've already retweeted the tweet
+        # so just does nothing when this error happens
+        try:
             retweet(ident)
-            # and remember it's been retweeted
-            remember("retweeted.txt", ident)
-        else:
-            # otherwise do nothing
+        except:
             pass

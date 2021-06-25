@@ -13,6 +13,20 @@ def tweet(text):
     # posting tweet
     api.update_status(text)
 
+# returns the bot's id
+def botId():
+    # authentification
+    auth = tweepy.OAuthHandler(API_KEY, API_SECRET_KEY)
+    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
+    # getting tweepy api object
+    api = tweepy.API(auth)
+
+    # finds the user object associated with the bot
+    user = api.me()
+    # returns the id of that object
+    return user.id
+    
 # returns all tweets made after or on the date entered, sorted from newest (0) to oldest (99), when return when text is searched using Twitter's search capability
 # data types: returns 2d array with tweet id in the first row (as an integer), and the tweet text in the second row (as a string)
 # date input is in yyyy-mm-dd format, and a string if it is used

@@ -17,8 +17,8 @@ while True:
         try:
             # finds the original post's id
             opId = mention.in_reply_to_status_id
-            # ensures the original poster is not the bot
-            if opId != botId():
+            # ensures the original poster is not the bot and the post is a top-level tweet
+            if opId != botId() and opId.in_reply_to_status_id is None:
                 # if it's not, then it retweets the original post
                 retweet(opId)
             

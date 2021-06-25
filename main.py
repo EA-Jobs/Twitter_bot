@@ -13,11 +13,15 @@ while True:
 
     # loops through all the mentions of the bot on the timeline
     for mention in mentions():
-        # attempts to retweet mention
+        # attempts to retweet tweet mention is in reply to
         try:
-            # but only if it isn't in reply to anything
-            if mention.in_reply_to_status_id is None:
-                retweet(mention.id)
+            # finds the original post's id
+            opId = mention.in_reply_to_status_id
+            # ensures the original poster is not the bot
+            if opId != botId():
+                # if it's not, then it retweets the original post
+                retweet(opId)
+            
         # If an error happens (usually when the tweet has already been retweeted)
         # then it does nothing
         except:

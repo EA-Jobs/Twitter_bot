@@ -45,7 +45,7 @@ def mentions():
     api = tweepy.API(auth)
 
     # saves mentions to list
-    mentions = api.mentions_timeline(count = 3)
+    mentions = api.mentions_timeline(count = 100)
 
     # returns mentions
     return mentions
